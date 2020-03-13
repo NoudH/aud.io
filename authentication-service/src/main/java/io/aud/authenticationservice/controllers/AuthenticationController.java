@@ -1,23 +1,16 @@
 package io.aud.authenticationservice.controllers;
 
 import io.aud.authenticationservice.domain.Account;
-import io.aud.authenticationservice.domain.AccountStatus;
 import io.aud.authenticationservice.services.AccountService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AuthorizationServiceException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.security.auth.login.AccountLockedException;
-import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -45,4 +38,32 @@ public class AuthenticationController {
         return accountService.signUp(account);
     }
 
+    @PreAuthorize("hasAnyAuthority('ACTIVATE_ACCOUNT')")
+    @PutMapping("activate")
+    public void activateAccount(@ApiIgnore Authentication authentication) {
+        accountService.activate(authentication);
+    }
+
+    @GetMapping("reset-password")
+    public void requestPasswordReset(String email){
+        accountService.requestPasswordReset(email);
+    }
+
+    @PreAuthorize("hasAnyAuthority('RESET_PASSWORD')")
+    @PutMapping("reset-password")
+    public void changePassword(@ApiIgnore Authentication authentication, String newPassword){
+        accountService.changePassword(authentication, newPassword);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("delete")
+    public void requestAccountDeletion(@ApiIgnore Authentication authentication) {
+        accountService.requestAccountDeletion(authentication);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ACCOUNT_DELETE_SELF')")
+    @DeleteMapping("delete")
+    public void deleteAccount(@ApiIgnore Authentication authentication) {
+        accountService.deleteAccount(authentication);
+    }
 }

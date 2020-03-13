@@ -1,0 +1,65 @@
+# Spring properties
+spring:
+  application:
+    name: email-service
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreply.audio@gmail.com
+    password: _NDdJ=h-8J*Gk2PX
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+
+# Discovery Server Access
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+security:
+  jwt:
+    token:
+      issuer: PlanetExpress
+      secret-key: Y8Mbx7xg61CGpHVJI-uMlyb2RYzESBgGnoffmQUd9GnbSMn0-dH7IBbmHstYb03xAYYPI5nl7FjUqgttUriJiCGw-NY-ciq31e-w-dG0Ps4XRKxcGX_rANbZVJeWfN1MywFiqQ2qOOeQh3SWutprkOhcsaVcErogkRRqIR8H3Q8YN7DCyckBWa0saUvfYQR03_rtHZM1k3aSuNspK0oTTpVTrUfzVk3jF0EulTrjE7QT8g5Td2sB29N1lgSYocgmJ_77_Hlxd8P6KiFDJFi5hynLwi1z-r-v1jxw5zC486K58dJhLlxr2oaw7jNoz_nWHiDiI4OYhO32AWIbV8aw # DO NOT CHANGE!
+      expire-length: 1800000 # 30 min in ms
+
+emails:
+  application:
+    host: http://localhost:4200
+    activate-account:
+      endpoint: /activate-account
+    reset-password:
+      endpoint: /reset-password
+    delete-account:
+      endpoint: /delete-account
+  templates:
+    password-changed: PasswordChanged.html
+    activate-account: ConfirmAccount.html
+    reset-password: ResetPassword.html
+    delete-account: DeleteAccount.html
+    account-locked-out: AccountLocked.html
+
+# HTTP Server
+server:
+  port: 0
+
+

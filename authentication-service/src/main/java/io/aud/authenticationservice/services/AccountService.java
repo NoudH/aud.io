@@ -6,17 +6,17 @@ import io.aud.authenticationservice.repositories.AccountRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.security.auth.login.AccountLockedException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class AccountService {
@@ -36,8 +36,18 @@ public class AccountService {
     @Value("${security.jwt.token.expire-length}")
     private long EXPIRATION; //in ms
 
+    @Value("${security.jwt.token.reset-password-expire-length}")
+    private long PASSWORD_RESET_EXPIRATION; //in ms
+
+    @Value("${security.jwt.token.activate-account-expire-length}")
+    private long ACTIVATE_ACCOUNT_EXPIRATION; //in ms
+
+    @Value("${security.jwt.token.delete-account-expire-length}")
+    private long DELETE_ACCOUNT_EXPIRATION; //in ms
+
     private AccountRepository accountRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private RabbitTemplate rabbitTemplate;
 
     public AccountService(AccountRepository accountRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.accountRepository = accountRepository;
@@ -52,7 +62,13 @@ public class AccountService {
         else {
             accountEntity.incrementLockoutCounter();
             accountRepository.save(accountEntity);
-            if(accountEntity.getLockoutCounter() >= LOCKOUT_THRESHOLD){ throw new AccountLockedException("Account Locked Out!"); }
+            if(accountEntity.getLockoutCounter() >= LOCKOUT_THRESHOLD) {
+                rabbitTemplate.convertAndSend(
+                        "EmailService_LockoutAccount",
+                        generateToken(ACTIVATE_ACCOUNT_EXPIRATION, accountEntity.getEmail(), Collections.singletonList("ACTIVATE_ACCOUNT"))
+                );
+                throw new AccountLockedException("Account Locked Out!");
+            }
             throw new AuthorizationServiceException("Login failed");
         }
     }
@@ -60,7 +76,51 @@ public class AccountService {
     public Account signUp(Account account){
         account.setClaims(CLAIMS);
         account.setStatus(AccountStatus.AWAITING_CONFIRMATION);
-        return accountRepository.save(account);
+        Account returnEntity = accountRepository.save(account);
+
+        rabbitTemplate.convertAndSend(
+                "EmailService_ActivateAccount",
+                generateToken(ACTIVATE_ACCOUNT_EXPIRATION, returnEntity.getEmail(), Collections.singletonList("ACTIVATE_ACCOUNT"))
+        );
+
+        return returnEntity;
+    }
+
+    public void activate(Authentication authentication) {
+        Account account = accountRepository.findByEmail(authentication.getName()).get();
+        account.setStatus(AccountStatus.ACTIVATED);
+        accountRepository.save(account);
+    }
+
+    public void requestPasswordReset(String email) {
+        Account account = accountRepository.findByEmail(email).get();
+
+        rabbitTemplate.convertAndSend(
+                "EmailService_ForgotPassword",
+                generateToken(PASSWORD_RESET_EXPIRATION, account.getEmail(), Collections.singletonList("RESET_PASSWORD"))
+        );
+    }
+
+    public void changePassword(Authentication authentication, String newPassword) {
+        Account account = accountRepository.findByEmail(authentication.getName()).get();
+        account.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        accountRepository.save(account);
+
+        rabbitTemplate.convertAndSend("EmailService_ChangedPassword", account.getEmail());
+    }
+
+    public void requestAccountDeletion(Authentication authentication) {
+        Account account = accountRepository.findByEmail(authentication.getName()).get();
+
+        rabbitTemplate.convertAndSend(
+                "EmailService_DeleteAccount",
+                generateToken(DELETE_ACCOUNT_EXPIRATION, account.getEmail(), Collections.singletonList("ACCOUNT_DELETE_SELF"))
+        );
+    }
+
+    public void deleteAccount(Authentication authentication) {
+        Account account = accountRepository.findByEmail(authentication.getName()).get();
+        accountRepository.delete(account);
     }
 
     private String generateToken(Long expiration, String subject, List<String> authorities){
