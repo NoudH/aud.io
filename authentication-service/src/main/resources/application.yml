@@ -37,6 +37,7 @@ security:
       expire-length: 1800000 # 30 min in ms
       reset-password-expire-length: 604800000 # 7 days in ms
       activate-account-expire-length: 604800000 # 7 days in ms
+      delete-account-expire-length: 604800000 # 7 days in ms
   account-claims:
       users: ""
   lockout:

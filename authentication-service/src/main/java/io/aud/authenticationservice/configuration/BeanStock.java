@@ -8,11 +8,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class BeanStock {
 
+    //region BCrypt
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    //endregion
 
+    //region RabbitMQ Queues
     @Bean
     public Queue activateAccountQueue() {
         return new Queue("EmailService_ActivateAccount", true);
@@ -37,4 +40,5 @@ public class BeanStock {
     public Queue lockoutAccountQueue() {
         return new Queue("EmailService_LockoutAccount", true);
     }
+    //endregion
 }

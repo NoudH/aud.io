@@ -24,8 +24,8 @@ public class AccountService {
     @Value("${security.account-claims.users}")
     private List<String> CLAIMS;
 
-    @Value("$(security.lockout.threshold)")
-    private Integer LOCKOUT_THRESHOLD;
+    @Value("${security.lockout.threshold}")
+    private int LOCKOUT_THRESHOLD;
 
     @Value("${security.jwt.token.issuer}")
     private String ISSUER;
@@ -49,9 +49,10 @@ public class AccountService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private RabbitTemplate rabbitTemplate;
 
-    public AccountService(AccountRepository accountRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AccountService(AccountRepository accountRepository, BCryptPasswordEncoder bCryptPasswordEncoder, RabbitTemplate rabbitTemplate) {
         this.accountRepository = accountRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public String login(Account account) throws AccountLockedException {
@@ -62,7 +63,7 @@ public class AccountService {
         else {
             accountEntity.incrementLockoutCounter();
             accountRepository.save(accountEntity);
-            if(accountEntity.getLockoutCounter() >= LOCKOUT_THRESHOLD) {
+            if(accountEntity.getLockoutCounter() >= LOCKOUT_THRESHOLD - 1) {
                 rabbitTemplate.convertAndSend(
                         "EmailService_LockoutAccount",
                         generateToken(ACTIVATE_ACCOUNT_EXPIRATION, accountEntity.getEmail(), Collections.singletonList("ACTIVATE_ACCOUNT"))
@@ -76,6 +77,7 @@ public class AccountService {
     public Account signUp(Account account){
         account.setClaims(CLAIMS);
         account.setStatus(AccountStatus.AWAITING_CONFIRMATION);
+        account.setLockoutCounter(0);
         Account returnEntity = accountRepository.save(account);
 
         rabbitTemplate.convertAndSend(

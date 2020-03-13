@@ -50,13 +50,8 @@ public class RabbitReceiver {
     }
 
     @RabbitListener(queues = {"EmailService_ChangedPassword"})
-    public void sendPasswordChangedEmail(String message) throws IOException, MessagingException {
-        if(jwtUtil.validateToken(message)) {
-            String email = jwtUtil.parseToken(message).getBody().getSubject();
-            if (email != null) {
-                emailController.sendPasswordChangedEmail(email);
-            }
-        }
+    public void sendPasswordChangedEmail(String email) throws IOException, MessagingException {
+        emailController.sendPasswordChangedEmail(email);
     }
 
     @RabbitListener(queues = {"EmailService_LockoutAccount"})
