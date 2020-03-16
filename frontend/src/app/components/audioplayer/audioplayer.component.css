@@ -1,0 +1,42 @@
+.audioplayer-container {
+  height: 100%;
+  margin: auto;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+}
+
+mat-toolbar {
+  height: 10vh;
+  min-height: 100px;
+}
+
+.audio-description {
+  height: 25%;
+}
+
+.audio-progress {
+  height: 30%;
+  width: 100%;
+  display: flex;
+}
+
+.audio-controls {
+  height: 45%;
+  display: flex;
+  justify-content: center;
+}
+
+#audio-progressbar {
+  flex-grow: 1;
+}
+
+#current-time {
+  padding: 8px;
+  flex-shrink: 1;
+}
+
+#duration {
+  padding: 8px;
+  flex-shrink: 1;
+}

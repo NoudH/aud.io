@@ -7,22 +7,17 @@ mat-toolbar .spacer {
   flex: 1 1 auto;
 }
 
-img {
-  min-height: 0;
-  max-width: 100%;
-  max-height: 100%;
-}
-
 .flex-start {
   flex: 1;          /* shorthand for: flex-grow: 1, flex-shrink: 1, flex-basis: 0 */
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  flex-flow: column nowrap;
+  align-items: flex-start;
   max-height: 100%;
 }
 
 .flex-center {
-  flex: 1;
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +28,14 @@ img {
   flex: 1;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   max-height: 100%;
+}
+
+.mat-menu-panel {
+  min-width: unset!important;
+}
+
+.mat-menu-content mat-slider {
+  padding: 0;
 }

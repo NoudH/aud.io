@@ -4,10 +4,19 @@
       <img src="assets/logo/logo-transparant.png" alt="logo">
     </div>
     <div class="flex-center">
-
+      <form>
+        <mat-form-field floatLabel="never">
+          <mat-icon matPrefix style="vertical-align: bottom;">search</mat-icon>
+          <mat-label>search</mat-label>
+          <input matInput type="search" placeholder="search">
+        </mat-form-field>
+      </form>
     </div>
     <div class="flex-end">
       <button mat-flat-button color="accent">Login</button>
     </div>
   </mat-toolbar>
+  <footer>
+    <app-audioplayer></app-audioplayer>
+  </footer>
 </div>

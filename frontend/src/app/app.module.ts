@@ -7,11 +7,15 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { AudioplayerComponent } from './components/audioplayer/audioplayer.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AudioplayerComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +24,9 @@ import {MatInputModule} from '@angular/material/input';
     MatButtonModule,
     MatToolbarModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,17 @@
+.flex-start > img {
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: left;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+mat-label {
+  color: #a5a5a5 !important;
+}

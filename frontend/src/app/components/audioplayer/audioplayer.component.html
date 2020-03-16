@@ -1,0 +1,25 @@
+<div>
+  <mat-toolbar>
+    <div class="audioplayer-container">
+      <div class="audio-description">
+        {{trackTitle}}
+      </div>
+      <div class="audio-progress">
+        <span id="current-time">{{formatLabel(currentTime)}}</span>
+        <mat-slider id="audio-progressbar" min="0" max="{{duration}}" step="1" value="{{currentTime}}"
+                    (change)="sliderChange($event)"  (mousedown)="sliderStartDrag()" (mouseup)="sliderStopDrag()" (input)="sliderIsDragging($event)">
+        </mat-slider>
+        <span id="duration">{{formatLabel(duration)}}</span>
+      </div>
+      <div class="audio-controls">
+        <button mat-icon-button><mat-icon>fast_rewind</mat-icon></button>
+        <button mat-icon-button  (click)="togglePlaying()"><mat-icon>{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon></button>
+        <button mat-icon-button><mat-icon>fast_forward</mat-icon></button>
+        <button mat-icon-button id="volume-menu" [matMenuTriggerFor]="volumeMenu"><mat-icon>{{volumeIcon}}</mat-icon></button>
+        <mat-menu #volumeMenu="matMenu">
+          <mat-slider min="0" max="100" step="1" value="100" vertical (input)="volumeChange($event)"></mat-slider>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>
