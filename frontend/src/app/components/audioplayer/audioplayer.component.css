@@ -12,31 +12,37 @@ mat-toolbar {
 }
 
 .audio-description {
-  height: 25%;
+  height: 20%;
 }
 
 .audio-progress {
-  height: 30%;
+  height: 80%;
   width: 100%;
   display: flex;
 }
 
 .audio-controls {
-  height: 45%;
+  height: 60%;
   display: flex;
   justify-content: center;
 }
 
-#audio-progressbar {
+.audio-controls-wrapper {
   flex-grow: 1;
 }
 
 #current-time {
-  padding: 8px;
+  padding: 10px 8px 8px;
   flex-shrink: 1;
 }
 
 #duration {
-  padding: 8px;
+  padding: 10px 8px 8px;
   flex-shrink: 1;
+}
+
+#audio-progressbar {
+  width: 100%;
+  height: 40%;
+  padding: 0;
 }
