@@ -1,9 +1,21 @@
-.flex-start > img {
-  min-height: 0;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: left;
+#logo {
+  width: 100%;
+  height: auto;
+}
+
+.root-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#sidenav {
+  width: 270px;
+  padding: 0 16px;
 }
 
 footer {
@@ -27,13 +39,13 @@ mat-label {
 }
 
 #content-root {
-  margin-top: 10px;
+  margin-top: 50px;
+  margin-left: 10vh;
+  margin-right: 10vh;
 }
 
-@media only screen  and (min-width : 1224px) {
+@media only screen  and (max-width : 1223px) {
   #content-root {
-    margin-top: 50px;
-    margin-left: 10vh;
-    margin-right: 10vh;
+    margin-top: 10px;
   }
 }

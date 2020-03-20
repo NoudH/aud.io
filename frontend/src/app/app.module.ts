@@ -17,6 +17,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatRippleModule} from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {MinuteSecondsPipe} from './objects/pipes/minute-seconds/minute-seconds-pipe';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {MinuteSecondsPipe} from './objects/pipes/minute-seconds/minute-seconds-p
     MatDividerModule,
     MatListModule,
     MatRippleModule,
-    MatTableModule
+    MatTableModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
