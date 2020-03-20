@@ -5,7 +5,7 @@
         {{trackTitle}}
       </div>
       <div class="audio-progress">
-        <span id="current-time">{{formatLabel(currentTime)}}</span>
+        <span id="current-time">{{currentTime | minuteSeconds}}</span>
         <div class="audio-controls-wrapper">
           <mat-slider id="audio-progressbar" min="0" max="{{duration}}" step="1" value="{{currentTime}}"
                       (change)="sliderChange($event)"  (mousedown)="sliderStartDrag()" (mouseup)="sliderStopDrag()" (input)="sliderIsDragging($event)">
@@ -15,9 +15,9 @@
               <button mat-icon-button (click)="toggleRepeat()"><mat-icon>{{currentRepeatMode.toString()}}</mat-icon></button>
             </div>
             <div class="flex-center">
-              <button mat-icon-button><mat-icon>fast_rewind</mat-icon></button>
+              <button mat-icon-button><mat-icon>skip_previous</mat-icon></button>
               <button mat-icon-button  (click)="togglePlaying()"><mat-icon>{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon></button>
-              <button mat-icon-button><mat-icon>fast_forward</mat-icon></button>
+              <button mat-icon-button><mat-icon>skip_next</mat-icon></button>
             </div>
             <div class="flex-end">
               <button mat-icon-button id="volume-menu" [matMenuTriggerFor]="volumeMenu"><mat-icon>{{volumeIcon}}</mat-icon></button>
@@ -27,7 +27,7 @@
             </div>
           </div>
         </div>
-        <span id="duration">{{formatLabel(duration)}}</span>
+        <span id="duration">{{duration | minuteSeconds}}</span>
       </div>
     </div>
   </mat-toolbar>

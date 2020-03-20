@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AudioObject} from '../../objects/audio-object';
+import {AudioObject} from '../../objects/audio-object/audio-object';
+import {Track} from '../../domain/track';
 
 @Component({
   selector: 'app-audioplayer',
@@ -36,16 +37,13 @@ export class AudioplayerComponent implements OnInit {
     this.audioObject.audio.addEventListener( 'loadedmetadata', (metadata) => {
       this.duration = (metadata.target as HTMLAudioElement).duration;
     });
-  }
 
-  formatLabel(value: number | null) {
-    if (!value) {
-      return '0:00';
-    }
-    const minutes = Math.floor(value / 60);
-    const seconds = Math.floor(value % 60);
-
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    this.audioObject.onTrackChange((track: Track) => {
+      this.trackTitle = track.name;
+      this.duration = track.length;
+      this.audioObject.audio.src = track.source;
+      this.audioObject.play();
+    });
   }
 
   sliderChange(event) {

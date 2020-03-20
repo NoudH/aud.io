@@ -15,3 +15,25 @@ footer {
 mat-label {
   color: #a5a5a5 !important;
 }
+
+#search-form {
+  width: 100%;
+  text-align: center;
+}
+
+#search-input {
+  width: 100%;
+  max-width: 700px;
+}
+
+#content-root {
+  margin-top: 10px;
+}
+
+@media only screen  and (min-width : 1224px) {
+  #content-root {
+    margin-top: 50px;
+    margin-left: 10vh;
+    margin-right: 10vh;
+  }
+}

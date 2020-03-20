@@ -11,11 +11,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AudioplayerComponent } from './components/audioplayer/audioplayer.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { AudiolistComponent } from './components/audiolist/audiolist.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import {MatRippleModule} from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
+import {MinuteSecondsPipe} from './objects/pipes/minute-seconds/minute-seconds-pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AudioplayerComponent
+    AudioplayerComponent,
+    AudiolistComponent,
+    MinuteSecondsPipe
   ],
   imports: [
     BrowserModule,
@@ -26,7 +34,11 @@ import { MatMenuModule } from '@angular/material/menu';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule,
+    MatListModule,
+    MatRippleModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

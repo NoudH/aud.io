@@ -1,0 +1,22 @@
+<div>
+  <mat-list id="search-results">
+    <mat-list-item matRipple matRippleCentered="true" [matRippleTrigger]="trigger" *ngFor="let track of searchResults">
+      <div #trigger style="width: 100%" (click)="playTrack(track)">
+        <div mat-line>{{track.name}}</div>
+        <div mat-line>
+          <div class="secondary left-80">{{track.artist}}</div>
+          <div class="secondary right-20"><span style="padding-right: 5px;">{{track.length | minuteSeconds}}</span></div>
+        </div>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>playlist_add</mat-icon>
+          <span>Add to playlist</span>
+        </button>
+      </mat-menu>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+
+  </mat-list>
+</div>
