@@ -7,8 +7,9 @@
       <div class="audio-progress">
         <span id="current-time">{{currentTime | minuteSeconds}}</span>
         <div class="audio-controls-wrapper">
-          <mat-slider id="audio-progressbar" min="0" max="{{duration}}" step="1" value="{{currentTime}}"
-                      (change)="sliderChange($event)"  (mousedown)="sliderStartDrag()" (mouseup)="sliderStopDrag()" (input)="sliderIsDragging($event)">
+          <mat-slider id="audio-progressbar" min="0" max="{{duration > 0 ? duration : 1}}" step="1" value="{{currentTime}}"
+                      (change)="sliderChange($event)"  (mousedown)="sliderStartDrag()" (mouseup)="sliderStopDrag()" (input)="sliderIsDragging($event)"
+                      [disabled]="duration === 0">
           </mat-slider>
           <div class="audio-controls">
             <div class="flex-start">

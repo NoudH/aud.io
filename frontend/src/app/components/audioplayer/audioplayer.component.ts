@@ -18,17 +18,14 @@ export class AudioplayerComponent implements OnInit {
   };
 
   audioObject = AudioObject.getInstance();
-  currentTime: number;
-  duration: number;
+  currentTime = 0;
+  duration = 0;
   trackTitle: string;
   isPlaying = true;
   volumeIcon = 'volume_up';
   currentRepeatMode = this.repeatModes.REPEAT;
 
   ngOnInit(): void {
-    this.trackTitle = 'Track Title';
-    this.audioObject.audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
-    this.audioObject.play();
 
     this.audioObject.audio.addEventListener('timeupdate', (event) => {
       this.currentTime = (event.target as HTMLAudioElement).currentTime;
@@ -40,9 +37,10 @@ export class AudioplayerComponent implements OnInit {
 
     this.audioObject.onTrackChange((track: Track) => {
       this.trackTitle = track.name;
-      this.duration = track.length;
+      this.duration = 0;
       this.audioObject.audio.src = track.source;
       this.audioObject.play();
+      this.isPlaying = true;
     });
   }
 

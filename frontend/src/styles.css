@@ -39,6 +39,6 @@ mat-toolbar .spacer {
   padding: 0;
 }
 
-#search-results div.mat-list-item-content {
+.pr-0 div.mat-list-item-content {
   padding: 0 0 0 16px!important;
 }

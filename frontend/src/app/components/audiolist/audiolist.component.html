@@ -1,5 +1,5 @@
 <div>
-  <mat-list id="search-results">
+  <mat-list id="search-results" class="pr-0">
     <mat-list-item matRipple matRippleCentered="true" [matRippleTrigger]="trigger" *ngFor="let track of searchResults">
       <div #trigger style="width: 100%" (click)="playTrack(track)">
         <div mat-line>{{track.name}}</div>
