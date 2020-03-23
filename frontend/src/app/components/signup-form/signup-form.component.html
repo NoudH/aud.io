@@ -1,0 +1,35 @@
+<mat-card id="signup-card">
+  <mat-card-content>
+    <h2>Sign up</h2>
+    <form #signupForm="ngForm">
+      <mat-form-field id="username" hideRequiredMarker="true">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" placeholder="username" [ngModel]="SignupCreds.username" name="username" #username="ngModel" required>
+        <mat-error [hidden]="username.valid || username.pristine">Username is required!</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field id="email" hideRequiredMarker="true">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" placeholder="email" [ngModel]="SignupCreds.email" name="email" #email="ngModel" required>
+        <mat-error [hidden]="email.valid || email.pristine">Email is required!</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field id="password" hideRequiredMarker="true">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="password" [ngModel]="SignupCreds.password" name="password" #password="ngModel" required>
+        <mat-error [hidden]="password.valid || password.pristine">Password is required!</mat-error>
+      </mat-form-field>
+      <br>
+      <mat-form-field id="confirm-password" hideRequiredMarker="true">
+        <mat-label>Confirm password</mat-label>
+        <input matInput type="password" placeholder="password" [ngModel]="SignupCreds.confirmPassword" name="confirm-password" #confirmPassword="ngModel" required>
+        <mat-error [hidden]="confirmPassword.valid || confirmPassword.pristine">Confirm password!</mat-error>
+      </mat-form-field>
+      <br>
+      <br>
+      <button mat-flat-button color="accent" type="submit">Sign up</button>
+      <br>
+      <p>Already have an account? <a>Log in!</a></p>
+    </form>
+  </mat-card-content>
+</mat-card>

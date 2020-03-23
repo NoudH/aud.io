@@ -42,3 +42,7 @@ mat-toolbar .spacer {
 .pr-0 div.mat-list-item-content {
   padding: 0 0 0 16px!important;
 }
+
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: white;
+}

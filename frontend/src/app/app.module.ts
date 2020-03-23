@@ -18,13 +18,19 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {MinuteSecondsPipe} from './objects/pipes/minute-seconds/minute-seconds-pipe';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { SignupFormComponent } from './components/signup-form/signup-form.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     AudioplayerComponent,
     AudiolistComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    LoginFormComponent,
+    SignupFormComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     MatListModule,
     MatRippleModule,
     MatTableModule,
-    MatSidenavModule
+    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
