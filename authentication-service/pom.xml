@@ -107,8 +107,6 @@
             <groupId>com.planetexpress</groupId>
             <artifactId>jwtsecurity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/libraries/jwtsecurity.jar</systemPath>
         </dependency>
     </dependencies>
 
