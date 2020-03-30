@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Getter
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 public class UserAccount {
 
     @Id
-    @GeneratedValue
     private Long id;
 
     private String name;

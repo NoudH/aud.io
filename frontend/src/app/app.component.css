@@ -48,6 +48,8 @@ mat-label {
 @media only screen  and (max-width : 1223px) {
   #content-root {
     margin-top: 10px;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

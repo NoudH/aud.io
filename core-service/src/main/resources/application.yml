@@ -1,0 +1,49 @@
+# Spring properties
+spring:
+  # Replace this eventually with an actual Database!
+  datasource:
+    url: jdbc:h2:mem:core
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    databasePlatform: org.hibernate.dialect.H2Dialect
+  application:
+    name: core-service
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+# Discovery Server Access
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+
+storage:
+  location: files/
+
+security:
+  jwt:
+    token:
+      issuer: Aud.io
+      secret-key: Y8Mbx7xg61CGpHVJI-uMlyb2RYzESBgGnoffmQUd9GnbSMn0-dH7IBbmHstYb03xAYYPI5nl7FjUqgttUriJiCGw-NY-ciq31e-w-dG0Ps4XRKxcGX_rANbZVJeWfN1MywFiqQ2qOOeQh3SWutprkOhcsaVcErogkRRqIR8H3Q8YN7DCyckBWa0saUvfYQR03_rtHZM1k3aSuNspK0oTTpVTrUfzVk3jF0EulTrjE7QT8g5Td2sB29N1lgSYocgmJ_77_Hlxd8P6KiFDJFi5hynLwi1z-r-v1jxw5zC486K58dJhLlxr2oaw7jNoz_nWHiDiI4OYhO32AWIbV8aw # DO NOT CHANGE!
+      expire-length: 1800000 # 30 min in ms
+
+# HTTP Server
+server:
+  port: 0
+

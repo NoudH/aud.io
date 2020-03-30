@@ -18,6 +18,9 @@ zuul:
     auth:
       path: /auth/**
       service-id: authentication-service
+    core:
+      path: /audio/**
+      service-id: core-service
 
 management:
   endpoints:
