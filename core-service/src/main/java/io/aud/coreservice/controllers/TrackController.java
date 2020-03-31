@@ -4,17 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.aud.coreservice.domain.Track;
 import io.aud.coreservice.services.TrackService;
 import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 public class TrackController {
@@ -30,12 +33,12 @@ public class TrackController {
         return trackService.upload(track, file, authentication);
     }
 
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping(value = "/files/{filename:.+}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable("filename") String filename) {
+    public byte[] serveFile(@PathVariable("filename") String filename) throws IOException {
         Resource file = trackService.serveFile(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        InputStream in = file.getInputStream();
+        return IOUtils.toByteArray(in);
     }
 
     @GetMapping("/search")
