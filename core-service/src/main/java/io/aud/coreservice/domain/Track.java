@@ -22,6 +22,8 @@ public class Track {
 
     private String audioUrl;
 
+    private Integer duration;
+
     @ManyToOne
     private UserAccount uploader;
 

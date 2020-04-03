@@ -6,6 +6,7 @@ import io.aud.coreservice.domain.Visibility;
 import io.aud.coreservice.repositories.ArtistRepository;
 import io.aud.coreservice.repositories.TrackRepository;
 import io.aud.coreservice.repositories.UserAccountRepository;
+import net.bramp.ffmpeg.FFprobe;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -16,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,8 +27,8 @@ import java.util.stream.Collectors;
 @Component
 public class TrackService {
 
-    @Value("${storage.location}")
-    private String fileDir;
+    @Value("${ffmpeg.path}")
+    private String ffmpegPath;
 
     private final StorageService storageService;
     private TrackRepository trackRepository;
@@ -39,7 +42,9 @@ public class TrackService {
         this.artistRepository = artistRepository;
     }
 
-    public Track upload(Track track, MultipartFile file, Authentication authentication) {
+    public Track upload(Track track, MultipartFile file, Authentication authentication) throws IOException, UnsupportedAudioFileException {
+        FFprobe ffprobe = new FFprobe(ffmpegPath);
+
         if(track.getArtists() == null) {
             track.setArtists(new ArrayList<>());
         }
@@ -47,7 +52,9 @@ public class TrackService {
 
         String name = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
         storageService.store(file, name);
-        track.setAudioUrl(fileDir + name);
+        track.setAudioUrl(name);
+
+        track.setDuration((int)ffprobe.probe("./files/" + name).getFormat().duration);
 
         if(authentication != null && authentication.isAuthenticated()){
             track.setUploader(userAccountRepository.findByEmail(authentication.getName()).get());

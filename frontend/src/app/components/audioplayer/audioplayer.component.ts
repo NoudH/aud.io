@@ -11,24 +11,15 @@ export class AudioplayerComponent implements OnInit {
 
   constructor() { }
 
-  repeatModes = {
-    REPEAT: 'repeat',
-    REPEAT_ONE: 'repeat_one',
-    SHUFFLE: 'shuffle'
-  };
-
   audioObject = AudioObject.getInstance();
-  currentTime = 0;
   duration = 0;
   trackTitle: string;
-  isPlaying = true;
   volumeIcon = 'volume_up';
-  currentRepeatMode = this.repeatModes.REPEAT;
 
   ngOnInit(): void {
 
     this.audioObject.audio.addEventListener('timeupdate', (event) => {
-      this.currentTime = (event.target as HTMLAudioElement).currentTime;
+      this.audioObject.currentTime = (event.target as HTMLAudioElement).currentTime;
     });
 
     this.audioObject.audio.addEventListener( 'loadedmetadata', (metadata) => {
@@ -38,9 +29,6 @@ export class AudioplayerComponent implements OnInit {
     this.audioObject.onTrackChange((track: Track) => {
       this.trackTitle = track.name;
       this.duration = 0;
-      this.audioObject.audio.src = track.source;
-      this.audioObject.play();
-      this.isPlaying = true;
     });
   }
 
@@ -50,22 +38,18 @@ export class AudioplayerComponent implements OnInit {
 
   sliderStartDrag() {
     this.audioObject.pause();
-    this.isPlaying = false;
   }
 
   sliderStopDrag() {
     this.audioObject.play();
-    this.isPlaying = true;
   }
 
   sliderIsDragging(event) {
-    this.currentTime = event.value;
+    this.audioObject.currentTime = event.value;
   }
 
   togglePlaying() {
-    this.isPlaying = !this.isPlaying;
-
-    this.isPlaying ? this.audioObject.play() : this.audioObject.pause();
+    this.audioObject.isPlaying() ? this.audioObject.pause() : this.audioObject.play();
   }
 
   volumeChange(event) {
@@ -76,15 +60,18 @@ export class AudioplayerComponent implements OnInit {
   }
 
   toggleRepeat() {
-    switch (this.currentRepeatMode) {
-      case this.repeatModes.REPEAT:
-        this.currentRepeatMode = this.repeatModes.REPEAT_ONE;
+    switch (this.audioObject.currentRepeatMode) {
+      case this.audioObject.repeatModes.REPEAT:
+        this.audioObject.currentRepeatMode = this.audioObject.repeatModes.REPEAT_ONE;
         break;
-      case this.repeatModes.REPEAT_ONE:
-        this.currentRepeatMode = this.repeatModes.SHUFFLE;
+      case this.audioObject.repeatModes.REPEAT_ONE:
+        this.audioObject.currentRepeatMode = this.audioObject.repeatModes.SHUFFLE;
         break;
-      case this.repeatModes.SHUFFLE:
-        this.currentRepeatMode = this.repeatModes.REPEAT;
+      case this.audioObject.repeatModes.SHUFFLE:
+        this.audioObject.currentRepeatMode = this.audioObject.repeatModes.SINGLE;
+        break;
+      case this.audioObject.repeatModes.SINGLE:
+        this.audioObject.currentRepeatMode = this.audioObject.repeatModes.REPEAT;
         break;
     }
   }

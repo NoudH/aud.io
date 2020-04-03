@@ -9,20 +9,16 @@ import {AudioObject} from '../../objects/audio-object/audio-object';
 })
 export class AudiolistComponent implements OnInit {
 
-  private audioObject = AudioObject.getInstance();
+  audioObject = AudioObject.getInstance();
 
   constructor() { }
 
-  searchResults = [
-    new Track(1, 'Track name 1', 'Artist', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 372),
-    new Track(2, 'Track name 2', 'Artist', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 372),
-    new Track(3, 'Track name 3', 'Artist', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 372),
-  ];
+  public searchResults = [];
 
   ngOnInit(): void {
   }
 
   playTrack(track: Track) {
-    this.audioObject.changeTrack(track);
+    this.audioObject.playNow(track);
   }
 }

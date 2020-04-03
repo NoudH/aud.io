@@ -8,7 +8,7 @@
         <mat-form-field floatLabel="never" id="search-input">
           <mat-icon matPrefix style="vertical-align: bottom;">search</mat-icon>
           <mat-label>search</mat-label>
-          <input matInput type="search" placeholder="search">
+          <input matInput type="search" placeholder="search" (input)="onSearchbarChanged($event)">
         </mat-form-field>
       </form>
     </div>
@@ -23,8 +23,7 @@
     <mat-sidenav-content>
       <!-- Content -->
       <div id="content-root">
-        <!--<app-signup-form></app-signup-form>-->
-        <app-audiolist></app-audiolist>
+        <app-audiolist #searchResults></app-audiolist>
       </div>
       <footer>
         <app-audioplayer></app-audioplayer>

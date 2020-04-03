@@ -1,6 +1,10 @@
 spring:
   application:
     name: zuul-gateway
+  servlet:
+    multipart:
+      maxFileSize: 25MB
+      maxRequestSize: 25MB
 
 eureka:
   client:

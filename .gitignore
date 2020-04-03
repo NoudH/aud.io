@@ -1,1 +1,3 @@
 nebular-frontend/
+*.mv.db
+*.trace.db

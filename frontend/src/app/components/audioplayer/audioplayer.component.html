@@ -5,20 +5,20 @@
         {{trackTitle}}
       </div>
       <div class="audio-progress">
-        <span id="current-time">{{currentTime | minuteSeconds}}</span>
+        <span id="current-time">{{audioObject.currentTime | minuteSeconds}}</span>
         <div class="audio-controls-wrapper">
-          <mat-slider id="audio-progressbar" min="0" max="{{duration > 0 ? duration : 1}}" step="1" value="{{currentTime}}"
+          <mat-slider id="audio-progressbar" min="0" max="{{duration > 0 ? duration : 1}}" step="1" value="{{audioObject.currentTime}}"
                       (change)="sliderChange($event)"  (mousedown)="sliderStartDrag()" (mouseup)="sliderStopDrag()" (input)="sliderIsDragging($event)"
                       [disabled]="duration === 0">
           </mat-slider>
           <div class="audio-controls">
             <div class="flex-start">
-              <button mat-icon-button (click)="toggleRepeat()"><mat-icon>{{currentRepeatMode.toString()}}</mat-icon></button>
+              <button mat-icon-button (click)="toggleRepeat()"><mat-icon>{{audioObject.currentRepeatMode.toString()}}</mat-icon></button>
             </div>
             <div class="flex-center">
-              <button mat-icon-button><mat-icon>skip_previous</mat-icon></button>
-              <button mat-icon-button  (click)="togglePlaying()"><mat-icon>{{isPlaying ? 'pause' : 'play_arrow'}}</mat-icon></button>
-              <button mat-icon-button><mat-icon>skip_next</mat-icon></button>
+              <button mat-icon-button (click)="audioObject.previousTrackInQueue()"><mat-icon>skip_previous</mat-icon></button>
+              <button mat-icon-button (click)="togglePlaying()"><mat-icon>{{audioObject.isPlaying() ? 'pause' : 'play_arrow'}}</mat-icon></button>
+              <button mat-icon-button (click)="audioObject.nextTrackInQueue()"><mat-icon>skip_next</mat-icon></button>
             </div>
             <div class="flex-end">
               <button mat-icon-button id="volume-menu" [matMenuTriggerFor]="volumeMenu"><mat-icon>{{volumeIcon}}</mat-icon></button>

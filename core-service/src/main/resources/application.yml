@@ -2,12 +2,14 @@
 spring:
   # Replace this eventually with an actual Database!
   datasource:
-    url: jdbc:h2:mem:core
+    url: jdbc:h2:file:./core;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
     driverClassName: org.h2.Driver
     username: sa
     password: password
   jpa:
     databasePlatform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
   application:
     name: core-service
   rabbitmq:
@@ -17,8 +19,8 @@ spring:
     port: 5672
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 10MB
+      maxFileSize: 25MB
+      maxRequestSize: 25MB
 
 # Discovery Server Access
 eureka:
@@ -35,6 +37,9 @@ eureka:
 
 storage:
   location: files/
+
+ffmpeg:
+  path: C:\Program Files (x86)\FFmpeg\bin\ffprobe.exe
 
 security:
   jwt:
