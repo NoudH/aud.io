@@ -1,15 +1,17 @@
-<mat-card id="login-card">
-  <mat-card-content>
-    <mat-form-field id="username">
-      <mat-label>username</mat-label>
-      <input matInput type="text" placeholder="username">
-    </mat-form-field>
-    <mat-form-field id="password">
-      <mat-label>password</mat-label>
-      <input matInput type="password" placeholder="password">
-    </mat-form-field>
-    <button mat-flat-button color="accent">Login</button>
-    <p><a>Forgot password?</a></p>
-    <p>Don't have an account? <a>Sign up!</a></p>
-  </mat-card-content>
-</mat-card>
+<form>
+  <h2 class="mt-0" id="form-header">Login</h2>
+  <mat-form-field id="username">
+    <mat-label>username</mat-label>
+    <input matInput type="text" placeholder="username">
+  </mat-form-field>
+  <br>
+  <mat-form-field id="password">
+    <mat-label>password</mat-label>
+    <input matInput type="password" placeholder="password">
+  </mat-form-field>
+  <br>
+  <button mat-flat-button color="accent">Login</button>
+  <br>
+  <p><a>Forgot password?</a></p>
+  <p>Don't have an account? <u class="link" (click)="openSignUpModal()">Sign up!</u></p>
+</form>

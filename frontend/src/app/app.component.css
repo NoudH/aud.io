@@ -45,6 +45,19 @@ mat-label {
   margin-bottom: calc(10vh + 50px);
 }
 
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sidenav-button {
+  cursor: pointer;
+}
+
+.sidenav-button mat-icon {
+  margin-right: 8px;
+}
+
 @media only screen  and (max-width : 1223px) {
   #content-root {
     margin-top: 10px;

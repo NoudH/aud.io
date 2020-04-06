@@ -1,0 +1,20 @@
+<form [formGroup]="formGroup">
+  <h2 class="mt-0">Upload an audio track</h2>
+  <mat-form-field id="name">
+    <mat-label>name</mat-label>
+    <input formControlName="name" matInput type="text" placeholder="name" name="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Visibility</mat-label>
+    <mat-select formControlName="visibilitySelect" panelClass="panel-under" [ngClass]="{ 'is-invalid': submitted && f.visibilitySelect.errors }">
+      <mat-option *ngFor="let vis of visibility | enumToArray" [value]="vis.index">{{vis.name.toLowerCase()}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-flat-button color="primary" (click)="fileUpload.click()">Choose File</button>
+  <input #fileUpload formControlName="fileUpload" hidden (change)="handleFileInput($event.target.files)" id="file" name="file" type="file" accept="audio/*">
+  <mat-error *ngIf="submitted && f.fileUpload.errors">Please select a file</mat-error>
+  <span *ngIf="filename"> {{filename}}</span>
+  <br *ngIf="filename">
+  <button mat-flat-button color="accent" type="button" (click)="submit()" style="float: right;"><mat-progress-spinner *ngIf="showSpinner"></mat-progress-spinner> Submit</button>
+</form>

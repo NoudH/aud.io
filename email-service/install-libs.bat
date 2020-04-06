@@ -1,0 +1,1 @@
+mvn install:install-file  -Dfile=libraries/jwtsecurity.jar -DgroupId=com.planetexpress -DartifactId=jwtsecurity -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true

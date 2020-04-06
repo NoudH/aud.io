@@ -46,3 +46,27 @@ mat-toolbar .spacer {
 .mat-form-field.mat-focused .mat-form-field-label {
   color: white;
 }
+
+.mat-dialog-container {
+  box-shadow: none!important;
+}
+
+.mat-input-element {
+  caret-color: unset!important;
+}
+
+.mt-0 {
+  margin-top: 0!important;
+}
+
+.mat-list-base mat-list-item.sidenav-button .mat-list-item-content {
+  padding: 8px;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: transparent;
+}
+
+.panel-under {
+  margin-top: 42px!important;
+}

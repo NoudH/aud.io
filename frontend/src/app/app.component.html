@@ -13,12 +13,20 @@
       </form>
     </div>
     <div class="flex-end">
-      <button mat-flat-button color="accent">Login</button>
+      <button mat-flat-button color="accent" (click)="openLoginModal()">Login</button>
     </div>
   </mat-toolbar>
   <mat-sidenav-container style="flex: 1">
-    <mat-sidenav #sidenav mode="over" id="sidenav">
+    <mat-sidenav #sidenav mode="over" id="sidenav" >
       <img src="assets/logo/logo-transparent.png" alt="logo" id="logo">
+      <mat-list>
+        <mat-divider></mat-divider>
+        <mat-list-item class="sidenav-button" (click)="openUploadModal()">
+          <mat-icon>cloud_upload</mat-icon>
+          <span>Upload track</span>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </mat-list>
     </mat-sidenav>
     <mat-sidenav-content>
       <!-- Content -->

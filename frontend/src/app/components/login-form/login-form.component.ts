@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {SignupFormComponent} from '../signup-form/signup-form.component';
 
 @Component({
   selector: 'app-login-form',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  openSignUpModal() {
+    this.dialog.closeAll();
+    this.dialog.open(SignupFormComponent);
+  }
 }

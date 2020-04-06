@@ -22,7 +22,18 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { SignupFormComponent } from './components/signup-form/signup-form.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
+import {MatDialogModule} from '@angular/material/dialog';
+import {AuthInterceptor} from './objects/interceptors/auth-interceptor/auth-interceptor';
+import { UploadFormComponent } from './components/upload-form/upload-form.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { EnumToArrayPipe } from './objects/pipes/enum-to-array/enum-to-array.pipe';
+import {MatSelectModule} from '@angular/material/select';
+
+const appRoutes: Routes = [
+  {}
+];
 
 @NgModule({
   declarations: [
@@ -31,9 +42,12 @@ import {HttpClientModule} from '@angular/common/http';
     AudiolistComponent,
     MinuteSecondsPipe,
     LoginFormComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    UploadFormComponent,
+    EnumToArrayPipe
   ],
   imports: [
+    /*RouterModule.forRoot(appRoutes),*/
     BrowserModule,
     BrowserAnimationsModule,
     MatSliderModule,
@@ -51,9 +65,15 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

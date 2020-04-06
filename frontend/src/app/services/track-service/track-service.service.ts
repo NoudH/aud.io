@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Visibility} from '../../domain/visibility.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -15,5 +16,15 @@ export class TrackService {
       .append('page', page.toString())
       .append('size', '20');
     return this.http.get<any>('http://localhost:8762/api/audio/search', {params});
+  }
+
+  public postUploadTrack(name: string, visibility: Visibility, file: File) {
+    const infoObj = {name, visibility: Visibility[visibility]};
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post('http://localhost:8762/api/audio/', formData, {
+      params: new HttpParams().set('track', JSON.stringify(infoObj))
+    });
   }
 }

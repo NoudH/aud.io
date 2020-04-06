@@ -2,6 +2,7 @@ package io.aud.zuulgateway.configuration;
 
 
 import com.planetexpress.jwtsecurity.utils.JwtUtil;
+import io.jsonwebtoken.JwtException;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -11,13 +12,10 @@ import java.io.IOException;
 
 public class ResponseInterceptor implements Filter {
 
-    private Integer EXPIRATION;
-
     private JwtUtil jwtUtil;
 
-    public ResponseInterceptor(JwtUtil jwtUtil, Integer expiration ) {
+    public ResponseInterceptor(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.EXPIRATION = expiration;
     }
 
     public void doFilter (ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -27,8 +25,13 @@ public class ResponseInterceptor implements Filter {
         String token = request.getHeader("Authorization");
         if (token != null ) {
             token = token.replace("Bearer ", "");
-            if (jwtUtil.validateToken(token)) {
-                response.addHeader("Authorization", "Bearer " + jwtUtil.refreshToken(token));
+            try{
+                if (jwtUtil.validateToken(token)) {
+                    response.addHeader("Authorization", "Bearer " + jwtUtil.refreshToken(token));
+                }
+            } catch (JwtException ex){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
             }
         }
 

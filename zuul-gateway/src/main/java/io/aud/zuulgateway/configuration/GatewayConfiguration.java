@@ -16,9 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class GatewayConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("#{new Integer('${security.jwt.token.expire-length}')}")
-    private Integer EXPIRATION;
-
     public JwtUtil jwtUtil;
 
     public GatewayConfiguration(JwtUtil jwtUtil){
@@ -34,7 +31,7 @@ public class GatewayConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .anonymous()
                 .and()
-                .addFilterBefore(new ResponseInterceptor(jwtUtil, EXPIRATION), BasicAuthenticationFilter.class)
+                .addFilterBefore(new ResponseInterceptor(jwtUtil), BasicAuthenticationFilter.class)
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtUtil))
                 .authorizeRequests()
                     .antMatchers("/**/v2/api-docs").hasAuthority("API_DOCS")
