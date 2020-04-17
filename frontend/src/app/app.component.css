@@ -45,11 +45,6 @@ mat-label {
   margin-bottom: calc(10vh + 50px);
 }
 
-.link {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .sidenav-button {
   cursor: pointer;
 }

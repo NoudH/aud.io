@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {TrackService} from './services/track-service/track-service.service';
+import {TrackService} from './services/track-service/track.service';
 import {AudiolistComponent} from './components/audiolist/audiolist.component';
 import {Track} from './domain/track';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';

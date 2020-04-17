@@ -2,6 +2,7 @@ package io.aud.authenticationservice.controllers;
 
 import io.aud.authenticationservice.domain.Account;
 import io.aud.authenticationservice.services.AccountService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.security.auth.login.AccountLockedException;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/")
@@ -23,19 +25,25 @@ public class AuthenticationController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> Login(Account account) {
+    public ResponseEntity<String> Login(@RequestBody Account account) {
         try {
             return ResponseEntity.ok(accountService.login(account));
         } catch (AccountLockedException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{status: \"failed\", reason: \"lockout\"}");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         } catch (AuthorizationServiceException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{status: \"failed\", reason: \"auth failed\"}");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed!");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("This account does not exist!");
         }
     }
 
     @PostMapping("sign-up")
-    public Account signUp(Account account){
-        return accountService.signUp(account);
+    public ResponseEntity<?> signUp(@RequestBody Account account) {
+        try{
+            return ResponseEntity.ok(accountService.signUp(account));
+        } catch (ConstraintViolationException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{status: \"failed\", reason: \"Email and/or username has already been taken!\"}");
+        }
     }
 
     @PreAuthorize("hasAnyAuthority('ACTIVATE_ACCOUNT')")
@@ -45,13 +53,13 @@ public class AuthenticationController {
     }
 
     @GetMapping("reset-password")
-    public void requestPasswordReset(String email){
+    public void requestPasswordReset(@RequestBody String email){
         accountService.requestPasswordReset(email);
     }
 
     @PreAuthorize("hasAnyAuthority('RESET_PASSWORD')")
     @PutMapping("reset-password")
-    public void changePassword(@ApiIgnore Authentication authentication, String newPassword){
+    public void changePassword(@ApiIgnore Authentication authentication, @RequestBody String newPassword){
         accountService.changePassword(authentication, newPassword);
     }
 

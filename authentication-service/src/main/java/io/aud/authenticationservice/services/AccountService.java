@@ -17,6 +17,7 @@ import javax.security.auth.login.AccountLockedException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class AccountService {
@@ -55,10 +56,15 @@ public class AccountService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public String login(Account account) throws AccountLockedException {
+    public String login(Account account) throws AccountLockedException, AuthorizationServiceException, NoSuchElementException {
         Account accountEntity = accountRepository.findByUsernameOrEmail(account.getUsername(), account.getEmail()).get();
         if(accountEntity.getStatus().equals(AccountStatus.ACTIVATED) && bCryptPasswordEncoder.matches(account.getPassword(), accountEntity.getPassword())){
+            accountEntity.setLockoutCounter(0);
+            accountRepository.save(accountEntity);
             return generateToken(EXPIRATION, accountEntity.getEmail(), accountEntity.getClaims());
+        }
+        else if (accountEntity.getStatus().equals(AccountStatus.AWAITING_CONFIRMATION)) {
+            throw new AccountLockedException("This account is awaiting confirmation! Please check your email!");
         }
         else {
             accountEntity.incrementLockoutCounter();
@@ -68,7 +74,9 @@ public class AccountService {
                         "EmailService_LockoutAccount",
                         generateToken(ACTIVATE_ACCOUNT_EXPIRATION, accountEntity.getEmail(), Collections.singletonList("ACTIVATE_ACCOUNT"))
                 );
-                throw new AccountLockedException("Account Locked Out!");
+                accountEntity.setStatus(AccountStatus.LOCKED_OUT);
+                accountRepository.save(accountEntity);
+                throw new AccountLockedException("Account has been locked out! Please check your email!");
             }
             throw new AuthorizationServiceException("Login failed");
         }

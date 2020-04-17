@@ -1,16 +1,16 @@
-<form>
+<form [formGroup]="formGroup" (submit)="submit()">
   <h2 class="mt-0" id="form-header">Login</h2>
   <mat-form-field id="username">
-    <mat-label>username</mat-label>
-    <input matInput type="text" placeholder="username">
+    <mat-label>username/email</mat-label>
+    <input formControlName="username" matInput type="text" placeholder="username/email" [errorStateMatcher]="validationErrorMatcher">
   </mat-form-field>
   <br>
   <mat-form-field id="password">
     <mat-label>password</mat-label>
-    <input matInput type="password" placeholder="password">
+    <input formControlName="password" matInput type="password" placeholder="password" [errorStateMatcher]="validationErrorMatcher">
   </mat-form-field>
   <br>
-  <button mat-flat-button color="accent">Login</button>
+  <button mat-flat-button color="accent" type="submit">Login</button>
   <br>
   <p><a>Forgot password?</a></p>
   <p>Don't have an account? <u class="link" (click)="openSignUpModal()">Sign up!</u></p>

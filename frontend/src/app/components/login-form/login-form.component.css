@@ -10,3 +10,8 @@ mat-form-field {
 #form-header {
   margin-top: 0;
 }
+
+form {
+  max-width: 60vw;
+  width: 400px;
+}

@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TrackService} from '../../services/track-service/track-service.service';
+import {TrackService} from '../../services/track-service/track.service';
 import {Visibility} from '../../domain/visibility.enum';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormValidationErrorMatcher} from '../../objects/error-state-matchers/form-validation-error-matcher';
 
 @Component({
   selector: 'app-upload-form',
@@ -12,8 +13,8 @@ export class UploadFormComponent implements OnInit {
   filename: string;
   visibility = Visibility;
   showSpinner = false;
-  submitted = false;
   file: File;
+  validationErrorMatcher = new FormValidationErrorMatcher();
 
   public formGroup = this.formBuilder.group( {
     name: new FormControl('', [Validators.required]),
@@ -30,9 +31,7 @@ export class UploadFormComponent implements OnInit {
   }
 
   submit() {
-    this.submitted = true;
     if (this.formGroup.valid) {
-      console.log('check');
       this.trackService.postUploadTrack(
         this.f.name.value,
         Visibility[Visibility[this.f.visibilitySelect.value]],
@@ -40,7 +39,6 @@ export class UploadFormComponent implements OnInit {
       )
         .subscribe((data) => {
           console.log('file uploaded');
-          this.submitted = false;
         });
     }
   }

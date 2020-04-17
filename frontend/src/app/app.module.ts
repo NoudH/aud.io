@@ -30,6 +30,7 @@ import { UploadFormComponent } from './components/upload-form/upload-form.compon
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { EnumToArrayPipe } from './objects/pipes/enum-to-array/enum-to-array.pipe';
 import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const appRoutes: Routes = [
   {}
@@ -69,7 +70,8 @@ const appRoutes: Routes = [
     RouterModule,
     MatDialogModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
