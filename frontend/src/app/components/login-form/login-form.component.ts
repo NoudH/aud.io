@@ -51,8 +51,7 @@ export class LoginFormComponent implements OnInit {
             });
           },
           (error1) => {
-            console.log(error1);
-            this.snackbar.open(error1.error, undefined, {
+            this.snackbar.open(error1.error.error ? error1.error.error : error1.error, undefined, {
               duration: 5000,
               verticalPosition: 'top',
               panelClass: 'error-panel'

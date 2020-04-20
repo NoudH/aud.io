@@ -11,10 +11,18 @@
       <mat-option *ngFor="let vis of visibility | enumToArray" [value]="vis.index">{{vis.name.toLowerCase()}}</mat-option>
     </mat-select>
   </mat-form-field>
-  <button mat-flat-button color="primary" (click)="fileUpload.click()">Choose File</button>
-  <input #fileUpload formControlName="fileUpload" hidden (change)="handleFileInput($event.target.files)" id="file" name="file" type="file" accept="audio/*">
-  <mat-error *ngIf="form.submitted && f.fileUpload.errors">Please select a file</mat-error>
-  <span *ngIf="filename"> {{filename}}</span>
-  <br *ngIf="filename">
-  <button mat-flat-button color="accent" type="submit" style="float: right;"><mat-progress-spinner *ngIf="showSpinner"></mat-progress-spinner> Submit</button>
+  <div style="width: 100%; overflow: hidden;">
+    <div style="float: left; max-width: 70%; overflow: hidden; white-space: nowrap;">
+      <button mat-flat-button type="button" color="primary" (click)="fileUpload.click()" [disabled]="showSpinner">Choose File</button>
+      <input #fileUpload formControlName="fileUpload" hidden (change)="handleFileInput($event.target.files)" id="file" name="file" type="file" accept="audio/*">
+      <mat-error *ngIf="form.submitted && f.fileUpload.errors">Please select a file</mat-error>
+      <span *ngIf="filename"> {{filename}}</span>
+    </div>
+    <div style="float: right;">
+      <button mat-flat-button color="accent" type="submit" [disabled]="showSpinner">Submit</button>
+    </div>
+  </div>
+  <div style="width: 100%;">
+    <mat-progress-spinner mode="indeterminate" color="accent" *ngIf="showSpinner" style="margin: auto;"></mat-progress-spinner>
+  </div>
 </form>

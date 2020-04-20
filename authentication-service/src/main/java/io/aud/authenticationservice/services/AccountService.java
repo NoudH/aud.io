@@ -1,5 +1,7 @@
 package io.aud.authenticationservice.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.aud.authenticationservice.domain.Account;
 import io.aud.authenticationservice.domain.AccountStatus;
 import io.aud.authenticationservice.repositories.AccountRepository;
@@ -86,6 +88,7 @@ public class AccountService {
         account.setClaims(CLAIMS);
         account.setStatus(AccountStatus.AWAITING_CONFIRMATION);
         account.setLockoutCounter(0);
+        account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
         Account returnEntity = accountRepository.save(account);
 
         rabbitTemplate.convertAndSend(
@@ -96,10 +99,15 @@ public class AccountService {
         return returnEntity;
     }
 
-    public void activate(Authentication authentication) {
+    public void activate(Authentication authentication) throws JsonProcessingException, IllegalArgumentException {
         Account account = accountRepository.findByEmail(authentication.getName()).get();
+        if(account.getStatus().equals(AccountStatus.ACTIVATED)){
+            throw new IllegalArgumentException("This account has already been activated!");
+        }
         account.setStatus(AccountStatus.ACTIVATED);
-        accountRepository.save(account);
+        account = accountRepository.save(account);
+
+        rabbitTemplate.convertAndSend("CoreService_NewUser", new ObjectMapper().writeValueAsString(account));
     }
 
     public void requestPasswordReset(String email) {

@@ -31,9 +31,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { EnumToArrayPipe } from './objects/pipes/enum-to-array/enum-to-array.pipe';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ActivateAccountComponent } from './components/activate-account/activate-account.component';
+import { MainComponent } from './components/main/main.component';
 
 const appRoutes: Routes = [
-  {}
+  {path: '', component: MainComponent},
+  {path: 'activate-account', component: ActivateAccountComponent}
 ];
 
 @NgModule({
@@ -45,10 +48,12 @@ const appRoutes: Routes = [
     LoginFormComponent,
     SignupFormComponent,
     UploadFormComponent,
-    EnumToArrayPipe
+    EnumToArrayPipe,
+    ActivateAccountComponent,
+    MainComponent
   ],
   imports: [
-    /*RouterModule.forRoot(appRoutes),*/
+    RouterModule.forRoot(appRoutes),
     BrowserModule,
     BrowserAnimationsModule,
     MatSliderModule,

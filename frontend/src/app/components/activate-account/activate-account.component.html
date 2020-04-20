@@ -1,0 +1,17 @@
+<div id="container">
+  <div id="inner-container">
+    <h2>{{showSpinner ? 'Please wait while we activate your account.' : success ? 'Success!' : 'Whoops!'}}</h2>
+    <mat-progress-spinner mode="indeterminate" color="accent" *ngIf="showSpinner" id="spinner"></mat-progress-spinner>
+    <div *ngIf="!showSpinner && success">
+      <mat-icon class="huge-icon">done</mat-icon>
+      <p>Your account has been successfully verified!</p>
+      <a routerLink="/"><button mat-flat-button color="accent">Back to home</button></a>
+    </div>
+    <div *ngIf="!showSpinner && !success">
+      <mat-icon class="huge-icon">close</mat-icon>
+      <p>Something went wrong!</p>
+      <pre>{{errortext}}</pre>
+      <a routerLink="/"><button mat-flat-button color="accent">Back to home</button></a>
+    </div>
+  </div>
+</div>

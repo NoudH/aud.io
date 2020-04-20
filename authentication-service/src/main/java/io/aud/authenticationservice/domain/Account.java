@@ -32,6 +32,7 @@ public class Account {
     private List<String> claims;
 
     @JsonIgnore
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     @JsonIgnore

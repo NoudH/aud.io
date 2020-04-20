@@ -4,7 +4,7 @@
       <div #trigger style="width: 100%" (click)="playTrack(track)">
         <div mat-line>{{track.name}}</div>
         <div mat-line>
-          <div class="secondary left-80">{{track.uploader?.name || 'Guest'}}</div>
+          <div class="secondary left-80">{{track.uploader?.username || 'Guest'}}</div>
           <div class="secondary right-20"><span style="padding-right: 5px;">{{track.length | minuteSeconds}}</span></div>
         </div>
       </div>

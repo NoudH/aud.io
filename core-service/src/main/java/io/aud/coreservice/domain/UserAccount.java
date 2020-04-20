@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Setter
@@ -12,12 +13,14 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @ToString
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserAccount {
 
     @Id
     private Long id;
 
-    private String name;
+    @Column(unique = true)
+    private String username;
 
     @Column(unique = true)
     private String email;

@@ -60,6 +60,9 @@ public class TrackService {
             track.setUploader(userAccountRepository.findByEmail(authentication.getName()).get());
         } else {
             track.setUploader(null);
+            if(track.getVisibility().equals(Visibility.PRIVATE)) {
+                track.setVisibility(Visibility.HIDDEN);
+            }
         }
         return trackRepository.save(track);
     }

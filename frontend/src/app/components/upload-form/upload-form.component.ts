@@ -3,6 +3,8 @@ import {TrackService} from '../../services/track-service/track.service';
 import {Visibility} from '../../domain/visibility.enum';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {FormValidationErrorMatcher} from '../../objects/error-state-matchers/form-validation-error-matcher';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-upload-form',
@@ -25,21 +27,36 @@ export class UploadFormComponent implements OnInit {
   // convenience getter for easy access to form fields
   get f() { return this.formGroup.controls; }
 
-  constructor(private trackService: TrackService, private formBuilder: FormBuilder) { }
+  constructor(private snackbar: MatSnackBar, private dialog: MatDialog, private trackService: TrackService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
   }
 
   submit() {
+    this.showSpinner = true;
     if (this.formGroup.valid) {
       this.trackService.postUploadTrack(
         this.f.name.value,
         Visibility[Visibility[this.f.visibilitySelect.value]],
         this.file
       )
-        .subscribe((data) => {
-          console.log('file uploaded');
-        });
+        .subscribe(
+          (data) => {
+            this.showSpinner = false;
+            this.dialog.closeAll();
+            this.snackbar.open('Upload was successful!', undefined, {
+              duration: 200,
+              verticalPosition: 'top'
+            });
+          }, error1 => {
+            this.showSpinner = false;
+            this.snackbar.open(error1.error.error ? error1.error.error : error1.error, undefined, {
+              duration: 5000,
+              verticalPosition: 'top',
+              panelClass: 'error-panel'
+            });
+          }
+        );
     }
   }
 

@@ -1,5 +1,6 @@
 package io.aud.authenticationservice.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.aud.authenticationservice.domain.Account;
 import io.aud.authenticationservice.services.AccountService;
 import org.hibernate.exception.ConstraintViolationException;
@@ -48,8 +49,13 @@ public class AuthenticationController {
 
     @PreAuthorize("hasAnyAuthority('ACTIVATE_ACCOUNT')")
     @PutMapping("activate")
-    public void activateAccount(@ApiIgnore Authentication authentication) {
-        accountService.activate(authentication);
+    public ResponseEntity<?> activateAccount(@ApiIgnore Authentication authentication) throws JsonProcessingException {
+        try{
+            accountService.activate(authentication);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException ex){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
     }
 
     @GetMapping("reset-password")

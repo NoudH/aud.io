@@ -12,29 +12,6 @@ import {UploadFormComponent} from './components/upload-form/upload-form.componen
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
 
-  @ViewChild('searchResults') searchList: AudiolistComponent;
-
-  constructor(private trackService: TrackService, private dialog: MatDialog) {}
-
-  onSearchbarChanged(val) {
-    this.trackService.getSearchTracks(val.target.value, 0).subscribe((data) => {
-      const tracks = [];
-      data.content.forEach( x => {
-        tracks.push(new Track(x.id, x.name, x.uploader, x.audioUrl.replace('files/', ''), x.duration));
-      });
-      this.searchList.searchResults = tracks;
-    });
-  }
-
-  openLoginModal() {
-    this.dialog.closeAll();
-    this.dialog.open(LoginFormComponent);
-  }
-
-  openUploadModal() {
-    this.dialog.closeAll();
-    this.dialog.open(UploadFormComponent);
-  }
+  constructor() {}
 }
