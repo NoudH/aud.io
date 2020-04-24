@@ -36,6 +36,7 @@ test zuul:
   image: maven:3.6.0-jdk-8
   script:
     - cd zuul-gateway
+    - bash intall-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -57,6 +58,7 @@ test auth-service:
   image: maven:3.6.0-jdk-8
   script:
     - cd authentication-service
+    - bash intall-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -78,6 +80,7 @@ test core-service:
   image: maven:3.6.0-jdk-8
   script:
     - cd core-service
+    - bash intall-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -99,6 +102,7 @@ test email-service:
   image: maven:3.6.0-jdk-8
   script:
     - cd email-service
+    - bash intall-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
