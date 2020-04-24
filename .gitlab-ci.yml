@@ -29,7 +29,7 @@ test eureka:
     - jdk-8
   only:
     changes:
-      - eureka-server/*
+      - eureka-server/**
 
 test zuul:
   stage: test
@@ -37,7 +37,7 @@ test zuul:
   script:
     - cd zuul-gateway
     - ls
-    - bash ./intall-libs.bat
+    - bash ./install-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -52,14 +52,14 @@ test zuul:
     - jdk-8
   only:
     changes:
-      - zuul-gateway/*
+      - zuul-gateway/**
 
 test auth-service:
   stage: test
   image: maven:3.6.0-jdk-8
   script:
     - cd authentication-service
-    - bash ./intall-libs.bat
+    - bash ./install-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -74,14 +74,14 @@ test auth-service:
     - jdk-8
   only:
     changes:
-      - authentication-service/*
+      - authentication-service/**
 
 test core-service:
   stage: test
   image: maven:3.6.0-jdk-8
   script:
     - cd core-service
-    - bash ./intall-libs.bat
+    - bash ./install-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -96,14 +96,14 @@ test core-service:
     - jdk-8
   only:
     changes:
-      - core-service/*
+      - core-service/**
 
 test email-service:
   stage: test
   image: maven:3.6.0-jdk-8
   script:
     - cd email-service
-    - bash ./intall-libs.bat
+    - bash ./install-libs.bat
     - mvn test
   artifacts:
     expire_in: 5 hours
@@ -118,7 +118,7 @@ test email-service:
     - jdk-8
   only:
     changes:
-      - email-service/*
+      - email-service/**
 
 test frontend:
   stage: test
@@ -137,4 +137,4 @@ test frontend:
     - karma
   only:
     changes:
-      - frontend/*
+      - frontend/**
