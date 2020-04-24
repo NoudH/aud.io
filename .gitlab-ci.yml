@@ -29,7 +29,7 @@ test eureka:
     - jdk-8
   only:
     changes:
-      - eureka-server/**
+      - eureka-server/**/*
 
 test zuul:
   stage: test
@@ -52,7 +52,7 @@ test zuul:
     - jdk-8
   only:
     changes:
-      - zuul-gateway/**
+      - zuul-gateway/**/*
 
 test auth-service:
   stage: test
@@ -74,7 +74,7 @@ test auth-service:
     - jdk-8
   only:
     changes:
-      - authentication-service/**
+      - authentication-service/**/*
 
 test core-service:
   stage: test
@@ -96,7 +96,7 @@ test core-service:
     - jdk-8
   only:
     changes:
-      - core-service/**
+      - core-service/**/*
 
 test email-service:
   stage: test
@@ -118,7 +118,7 @@ test email-service:
     - jdk-8
   only:
     changes:
-      - email-service/**
+      - email-service/**/*
 
 test frontend:
   stage: test
@@ -137,4 +137,4 @@ test frontend:
     - karma
   only:
     changes:
-      - frontend/**
+      - frontend/**/*
