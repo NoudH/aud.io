@@ -9,11 +9,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableAutoConfiguration
 @Configuration
 @EnableZuulProxy
 @EnableDiscoveryClient
 @EnableSwagger2
+@SpringBootApplication
 @ComponentScan(basePackages = {"io.aud.zuulgateway", "com.planetexpress.jwtsecurity.utils"})
 public class ZuulGatewayApplication {
 
