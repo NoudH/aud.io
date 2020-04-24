@@ -120,6 +120,7 @@ test frontend:
   image: trion/ng-cli-karma:9.1.3
   script:
     - cd frontend
+    - npm install
     - ng test --code-coverage --progress false --watch false
   coverage: '/Lines \W+: (\d+\.\d+)%.*/'
   artifacts:
