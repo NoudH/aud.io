@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AudioplayerComponent } from './audioplayer.component';
+import {MinuteSecondsPipe} from '../../objects/pipes/minute-seconds/minute-seconds-pipe';
 
 describe('AudioplayerComponent', () => {
   let component: AudioplayerComponent;
@@ -8,7 +9,7 @@ describe('AudioplayerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AudioplayerComponent ]
+      declarations: [ AudioplayerComponent, MinuteSecondsPipe]
     })
     .compileComponents();
   }));
