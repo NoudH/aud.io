@@ -127,4 +127,27 @@ public class TrackService {
         fos.close();
         return convFile;
     }
+
+    public List<Track> findAllById(List<Long> ids) {
+        return (List<Track>) trackRepository.findAllById(ids);
+    }
+
+    public Track findById(Long id) {
+        return trackRepository.findById(id).get();
+    }
+
+    public void removeTrack(Long id) {
+        Track entity = trackRepository.findById(id).get();
+
+        s3client.deleteObject(bucketName, entity.getAudioUrl().replace("/files/", "tracks/"));
+
+        entity.setVisibility(Visibility.REMOVED);
+        entity.setDuration(0);
+        entity.setArtists(null);
+        entity.setName("[REMOVED] " + entity.getName());
+        entity.setAudioUrl(null);
+        entity.setUploader(null);
+
+        trackRepository.save(entity);
+    }
 }

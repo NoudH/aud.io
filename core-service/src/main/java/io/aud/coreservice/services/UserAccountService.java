@@ -16,4 +16,8 @@ public class UserAccountService {
     public UserAccount newUserRegistered(UserAccount account) {
         return userAccountRepository.save(account);
     }
+
+    public UserAccount findByEmail(String email) {
+        return userAccountRepository.findByEmail(email).get();
+    }
 }

@@ -29,6 +29,7 @@ public class TrackController {
         this.trackService = trackService;
     }
 
+    //FIXME: change @RequestParam("track") to @RequestBody and !update frontend!
     @PostMapping("/")
     public Track postTrack(@ApiIgnore Authentication authentication, @RequestParam("file") MultipartFile file, @RequestParam("track") Track track) throws IOException, UnsupportedAudioFileException {
         return trackService.upload(track, file, authentication);
@@ -44,6 +45,12 @@ public class TrackController {
         Resource file = trackService.serveFile(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated() and trackService.findById(id).uploader.email == authentication.name")
+    public void removeTrack(@PathVariable("id") Long id) {
+        trackService.removeTrack(id);
     }
 
     @GetMapping("/search")
