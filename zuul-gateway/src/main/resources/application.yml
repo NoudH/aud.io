@@ -25,6 +25,21 @@ zuul:
     core:
       path: /audio/**
       service-id: core-service
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ReadTimeout: 60000
+  connection-timeout: 3000
 
 management:
   endpoints:
