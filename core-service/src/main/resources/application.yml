@@ -2,8 +2,8 @@
 spring:
   # Replace this eventually with an actual Database!
   datasource:
-    url: jdbc:h2:file:./core;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
-    driverClassName: org.h2.Driver
+    url: ${DB_HOST:jdbc:h2:file:./core;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE}
+    driverClassName: ${DB_DRIVER:org.h2.Driver}
     username: sa
     password: password
   jpa:
@@ -13,10 +13,10 @@ spring:
   application:
     name: core-service
   rabbitmq:
-    host: localhost
+    host: ${RABBIT_HOST:localhost}
     username: guest
     password: guest
-    port: 5672
+    port: ${RABBIT_PORT:5672}
   servlet:
     multipart:
       maxFileSize: 25MB
@@ -24,9 +24,6 @@ spring:
 
 # Discovery Server Access
 eureka:
-  instance:
-    hostname: localhost
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true
