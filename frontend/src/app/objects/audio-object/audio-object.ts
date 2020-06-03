@@ -55,7 +55,7 @@ export class AudioObject {
   }
 
   private changeTrack(track: Track) {
-    this.audio.src = 'http://localhost:8762/api/audio/files/' + track.audioUrl;
+    this.audio.src = '/tracks/' + track.audioUrl;
     this.play();
     this.onTrackChangeSubs.forEach(x => {
       x(track);

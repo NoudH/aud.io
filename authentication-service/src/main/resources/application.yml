@@ -20,6 +20,9 @@ spring:
 
 # Discovery Server Access
 eureka:
+  datacenter: cloud
+  instance:
+    preferIpAddress: false
   client:
     register-with-eureka: true
     fetch-registry: true

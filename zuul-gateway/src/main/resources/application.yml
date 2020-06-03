@@ -7,6 +7,9 @@ spring:
       maxRequestSize: 25MB
 
 eureka:
+  datacenter: cloud
+  instance:
+    preferIpAddress: false
   client:
     fetch-registry: true
     register-with-eureka: true
@@ -21,9 +24,11 @@ zuul:
   routes:
     auth:
       path: /auth/**
+      url: ${AUTH_URL}
       service-id: authentication-service
     core:
       path: /audio/**
+      url: ${CORE_URL}
       service-id: core-service
   host:
     socket-timeout-millis: 60000

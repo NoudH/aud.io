@@ -4,8 +4,9 @@ spring:
 
 # Configure this Discovery Server
 eureka:
+  datacenter: cloud
   instance:
-    hostname: localhost
+    preferIpAddress: false
   client:
     # Not a client, don't register with yourself (unless running
     # multiple discovery servers for redundancy)

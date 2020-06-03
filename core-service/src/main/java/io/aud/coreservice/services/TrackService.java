@@ -27,10 +27,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +43,18 @@ public class TrackService {
 
     @Value("${ffmpeg.path}")
     private String ffmpegPath;
+
+    @Value("${ffmpeg.path}")
+    private String ffmpegUrl;
+
+    @Value("${aws.accesskey}")
+    private String awsAccessKey;
+
+    @Value("${aws.secretkey}")
+    private String awsSecretKey;
+
+    @Value("${aws.sessiontoken}")
+    private String awsSessionToken;
 
     @Value("${s3.bucket.name}")
     private String bucketName;
@@ -78,7 +92,7 @@ public class TrackService {
 
         String name = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
         s3client.putObject(bucketName, "tracks/" + name, convertMultiPartToFile(file, name));
-        track.setAudioUrl("files/" + name);
+        track.setAudioUrl(name);
 
         track.setDuration((int)ffprobe.probe("./files/" + name).getFormat().duration);
 
@@ -149,5 +163,17 @@ public class TrackService {
         entity.setUploader(null);
 
         trackRepository.save(entity);
+    }
+
+    @PostConstruct
+    private void downloadFfmpeg() throws URISyntaxException, IOException {
+        File f = new File(ffmpegPath);
+        if(!f.exists() && !f.isDirectory()) {
+            String[] command = {"/bin/sh", "-c", "cd /usr/local/bin && mkdir ffmpeg && cd ffmpeg && wget " + ffmpegUrl + " && tar -xf ffmpeg-release-amd64-static.tar.xz && cp -a /usr/local/bin/ffmpeg/ffmpeg-4.2.3-amd64-static/ && . /usr/local/bin/ffmpeg/"};
+            Runtime.getRuntime().exec(command);
+            System.out.println("FFMPEG successfully installed!");
+            return;
+        }
+        System.out.println("FFMPEG already exists on this machine. No download required.");
     }
 }

@@ -15,7 +15,7 @@ export class AuthService {
       password
     };
 
-    return this.http.post('http://localhost:8762/api/auth/login', accountObj, {responseType: 'text'});
+    return this.http.post('http://api-audio.us-east-1.elasticbeanstalk.com/api/auth/login', accountObj, {responseType: 'text'});
   }
 
   postSignUp(username: string, email: string, password: string) {
@@ -25,10 +25,10 @@ export class AuthService {
       password
     };
 
-    return this.http.post('http://localhost:8762/api/auth/sign-up', accountObj);
+    return this.http.post('http://api-audio.us-east-1.elasticbeanstalk.com/api/auth/sign-up', accountObj);
   }
 
   putActivate(token: string) {
-    return this.http.put('http://localhost:8762/api/auth/activate', null, {headers: {Authorization: 'Bearer ' + token}});
+    return this.http.put('http://api-audio.us-east-1.elasticbeanstalk.com/api/auth/activate', null, {headers: {Authorization: 'Bearer ' + token}});
   }
 }

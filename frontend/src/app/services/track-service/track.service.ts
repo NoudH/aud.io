@@ -15,7 +15,7 @@ export class TrackService {
       .append('title', title)
       .append('page', page.toString())
       .append('size', '20');
-    return this.http.get<any>('http://localhost:8762/api/audio/search', {params});
+    return this.http.get<any>('http://api-audio.us-east-1.elasticbeanstalk.com/api/audio/search', {params});
   }
 
   public postUploadTrack(name: string, visibility: Visibility, file: File) {
@@ -23,7 +23,7 @@ export class TrackService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post('http://localhost:8762/api/audio/', formData, {
+    return this.http.post('http://api-audio.us-east-1.elasticbeanstalk.com/api/audio/', formData, {
       params: new HttpParams().set('track', JSON.stringify(infoObj))
     });
   }
