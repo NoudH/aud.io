@@ -13,7 +13,7 @@ spring:
   application:
     name: core-service
   rabbitmq:
-    host: ${RABBIT_HOST:rabbit-audio.us-east-1.elasticbeanstalk.com}
+    host: ${RABBIT_HOST:localhost}
     username: guest
     password: guest
     port: ${RABBIT_PORT:5672}
@@ -50,9 +50,9 @@ security:
       expire-length: 1800000 # 30 min in ms
 
 aws:
-  accesskey: ${AWS_ACCESSKEY:ASIAZZZNCR5O227FYLHE}
-  secretkey: ${AWS_SECRETKEY:HC5w7Tk3vOyWmCqGc6A/QzSdrhdSwgGqcXPvSt+C}
-  sessiontoken: ${AWS_SESSIONTOKEN:FwoGZXIvYXdzEBsaDKBMb+BUyGxWXaqDZSLLAfgMonhITag/7ZgXUmxsgtmTvPmsm/7Kn0j1PKl3C3yMVJ1rpDQT9V7nUBl6WPuJlFwEzs+arkxkaciAnuTQ3Vzd44Q0NFhFIvWQL/itBgXFt2ljlbcDHGi3KS78hYL6VruwHFm5JHZiXAwMVqflAgXUC425i6sAH5af9uw5/QfxoC2LIoAkKes6k90smHJh+daTaLQZ2RJbijdiXM26Um077NDBobKmp4g5dwh/ZiD3IG3T0l/Y5A/ayh8Pu5BDxqwgShriQTd2G2ymKK/h3fYFMi1QgRlMwzX0TUGHtqN0LXO3Ka7bSh94wVh/xcvU7962WhP8QYZHnIRzWbH53c4=}
+  accesskey: ${AWS_ACCESSKEY:ASIAVHAKLDQLT6B6HGG3}
+  secretkey: ${AWS_SECRETKEY:mX41MhivCezapj0lkFBe9uUyL+kuhdcFRCp0/TdR}
+  sessiontoken: ${AWS_SESSIONTOKEN:FwoGZXIvYXdzEDoaDHt3oH182VLkCliYGiLLAYOKOIPFHcGwi+TUc6tF4TNuFgqoIsPoM9yEgDnc5uIXzlMVW/Ua9qRAg+VV0AMHwxYSYDj7/9O1YiI8RlJyOoKZ+tN6u4+9nroNAWzhc72d1bVPU28cUoFWjyzhqCH43B3eqL5M5eJsfAQlEHb3u4MXETM2aHlX12DZGANh/men6NKyKQo452mBq7cuzwqe/WpiaA41bUK1T/A44IOxrJf0FQI0J0OQnrZ7PRqHS3RedPuzmtUcaXH+5tTp3KHONqMho0LXxuCreKG0KPzZnPcFMi171YF2ysaAGM0GMHd4Z87nah4Lruv1seFyEVU9BCs6kblj3f7OLqwrSi5Yob0=}
 
 s3:
   bucket:
@@ -60,7 +60,7 @@ s3:
 
 # HTTP Server
 server:
-  port: 0
+  port: 8764
 
 management:
   endpoints:

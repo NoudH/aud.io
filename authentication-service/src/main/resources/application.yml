@@ -47,5 +47,5 @@ security:
 
 # HTTP Server
 server:
-  port: 0
+  port: 8763
 

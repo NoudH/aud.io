@@ -1,2 +1,5 @@
 start cmd /k "cd eureka-server & mvn spring-boot:run"
 start cmd /k "cd zuul-gateway & mvn spring-boot:run"
+start cmd /k "cd email-service & mvn spring-boot:run"
+start cmd /k "cd authentication-service & mvn spring-boot:run"
+start cmd /k "cd core-service/target & java -jar trackservice-0.0.1-SNAPSHOT.jar"

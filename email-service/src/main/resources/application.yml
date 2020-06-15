@@ -41,7 +41,7 @@ security:
 
 emails:
   application:
-    host: ${WEBSITE_HOST:http://localhost:4200}
+    host: ${WEBSITE_HOST:http://aud.io1.s3-website-us-east-1.amazonaws.com/}
     activate-account:
       endpoint: /activate-account
     reset-password:

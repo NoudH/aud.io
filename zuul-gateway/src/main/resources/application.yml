@@ -24,11 +24,11 @@ zuul:
   routes:
     auth:
       path: /auth/**
-      url: ${AUTH_URL}
+      url: ${AUTH_URL:http://localhost:8763}
       service-id: authentication-service
     core:
       path: /audio/**
-      url: ${CORE_URL}
+      url: ${CORE_URL:http://localhost:8764}
       service-id: core-service
   host:
     socket-timeout-millis: 60000

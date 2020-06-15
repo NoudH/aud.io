@@ -32,25 +32,25 @@ public class PlaylistController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("isAuthenticated() and playlistService.findById(id).user.email == authentication.name")
+    @PreAuthorize("isAuthenticated() and @playlistService.findById(#id).user.email == authentication.name")
     public Playlist changePlaylist(@PathVariable("id") Long id, @RequestBody Playlist playlist) {
         return playlistService.changePlaylist(id, playlist);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("isAuthenticated() and playlistService.findById(id).user.email == authentication.name")
+    @PreAuthorize("isAuthenticated() and @playlistService.findById(#id).user.email == authentication.name")
     public void deletePlaylist(@PathVariable("id") Long id) {
         playlistService.deleteById(id);
     }
 
     @PostMapping("/{id}/tracks/{trackId}")
-    @PreAuthorize("isAuthenticated() and playlistService.findById(id).user.email == authentication.name")
+    @PreAuthorize("isAuthenticated() and @playlistService.findById(#id).user.email == authentication.name")
     public Playlist addTrackToPlaylist(@PathVariable("id") Long id, @PathVariable("trackId") Long trackId) {
         return playlistService.addTrackToPlaylist(id, trackId);
     }
 
     @DeleteMapping("/{id}/tracks/{trackId}")
-    @PreAuthorize("isAuthenticated() and playlistService.findById(id).user.email == authentication.name")
+    @PreAuthorize("isAuthenticated() and @playlistService.findById(#id).user.email == authentication.name")
     public Playlist removeTrackFromPlaylist(@PathVariable("id") Long id, @PathVariable("trackId") Long trackId) {
         return playlistService.removeTrackFromPlaylist(id, trackId);
     }

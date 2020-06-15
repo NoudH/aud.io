@@ -48,7 +48,7 @@ public class TrackController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("isAuthenticated() and trackService.findById(id).uploader.email == authentication.name")
+    @PreAuthorize("isAuthenticated() and @trackService.findById(#id).uploader.email == authentication.name")
     public void removeTrack(@PathVariable("id") Long id) {
         trackService.removeTrack(id);
     }

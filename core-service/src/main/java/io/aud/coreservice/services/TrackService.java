@@ -6,6 +6,8 @@ import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import io.aud.coreservice.domain.Artist;
@@ -17,6 +19,7 @@ import io.aud.coreservice.repositories.TrackRepository;
 import io.aud.coreservice.repositories.UserAccountRepository;
 import net.bramp.ffmpeg.FFprobe;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -64,16 +67,8 @@ public class TrackService {
     private UserAccountRepository userAccountRepository;
     private ArtistRepository artistRepository;
 
-    private AWSCredentials credentials = new BasicSessionCredentials(
-            "ASIAVHAKLDQL73JH42RL",
-            "59GgqraTJc7Qe0DM1bJ/ndoklvSvvcjPFSAxl5az",
-            "FwoGZXIvYXdzECIaDIVqi0zMHJ21ZCruxiLLAa1SouLJKvJugvoRw+aHUy8uSzzV4ONfbTXCiKAZ21sReWcZG3ANFKtU/4FsvNMSjUgHyh4ki0vV7XD00xpr93QxKcU34UVygDP1iJLbumV/ZL4GV5yCNXbnbN0u66ZGaN/UXoSPwnQ3XgmRmL7rFOdfRi460cKd5RLwgYsaTJTQjnho/ufXX9sDBPat0hR0esJmfkQbYz/oIzWrnnv6mheS3HYUzWdmgCIDTGZKrxuPqzuz4xfLM6UBw/gqRJEzlenS7PlPQxGAxX0WKIDe7vUFMi0mBcYjz4xTSSc+ikH3JhrFhByoX77pw6ZpY5XVX3y2gUFXxI1HCKz2IZ1k8mA="
-    );
-    private AmazonS3 s3client = AmazonS3ClientBuilder
-            .standard()
-            .withCredentials(new AWSStaticCredentialsProvider(credentials))
-            .withRegion(Regions.US_EAST_1)
-            .build();
+    private AWSCredentials credentials;
+    private AmazonS3 s3client;
 
     public TrackService(StorageService storageService, TrackRepository trackRepository, UserAccountRepository userAccountRepository, ArtistRepository artistRepository) {
         this.storageService = storageService;
@@ -91,7 +86,7 @@ public class TrackService {
         track.setArtists((List<Artist>) artistRepository.findAllById(track.getArtists().stream().map(Artist::getId).collect(Collectors.toList())));
 
         String name = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(file.getOriginalFilename());
-        s3client.putObject(bucketName, "tracks/" + name, convertMultiPartToFile(file, name));
+        s3client.putObject(new PutObjectRequest(bucketName, "tracks/" + name, convertMultiPartToFile(file, name)).withCannedAcl(CannedAccessControlList.PublicRead));
         track.setAudioUrl(name);
 
         track.setDuration((int)ffprobe.probe("./files/" + name).getFormat().duration);
@@ -166,14 +161,26 @@ public class TrackService {
     }
 
     @PostConstruct
-    private void downloadFfmpeg() throws URISyntaxException, IOException {
-        File f = new File(ffmpegPath);
-        if(!f.exists() && !f.isDirectory()) {
-            String[] command = {"/bin/sh", "-c", "cd /usr/local/bin && mkdir ffmpeg && cd ffmpeg && wget " + ffmpegUrl + " && tar -xf ffmpeg-release-amd64-static.tar.xz && cp -a /usr/local/bin/ffmpeg/ffmpeg-4.2.3-amd64-static/ && . /usr/local/bin/ffmpeg/"};
+    private void setupFFmpeg() throws URISyntaxException, IOException {
+        if(!SystemUtils.IS_OS_WINDOWS) {
+            String[] command = {"/bin/sh", "-c", "cp ./ffprobe /tmp/ffprobe && chmod 755 /tmp/ffmpeg"};
             Runtime.getRuntime().exec(command);
             System.out.println("FFMPEG successfully installed!");
-            return;
         }
-        System.out.println("FFMPEG already exists on this machine. No download required.");
+    }
+
+    @PostConstruct
+    private void setupAwsCreds() {
+        credentials = new BasicSessionCredentials(
+                awsAccessKey,
+                awsSecretKey,
+                awsSessionToken
+        );
+
+        s3client = AmazonS3ClientBuilder
+            .standard()
+            .withCredentials(new AWSStaticCredentialsProvider(credentials))
+            .withRegion(Regions.US_EAST_1)
+            .build();
     }
 }
